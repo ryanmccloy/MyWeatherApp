@@ -9,10 +9,15 @@ function WeatherProvider({ children }) {
   const [userInput, setUserInput] = useState("");
   const [currentTemperature, setCurrentTemperature] = useState("");
   const [forecast, setForecast] = useState([]);
+  const [isLoadingCurrentTemperature, setIsLoadingCurrentTemperature] =
+    useState(true);
+  const [isLoadingForecast, setIsLoadingForecast] = useState(true);
 
   // Fetch Current Weather
   useEffect(() => {
     const API_URL = `https://api.tomorrow.io/v4/weather/realtime?location=${userInput}&apikey=`;
+
+    setIsLoadingCurrentTemperature(true);
 
     const fetchCurrentWeather = async () => {
       try {
@@ -34,7 +39,7 @@ function WeatherProvider({ children }) {
         const data = await response.json();
         const { temperature } = data.data.values;
         setCurrentTemperature(Math.round(temperature));
-        console.log("current", temperature);
+        setIsLoadingCurrentTemperature(false);
       } catch (err) {
         console.error("Error fetching weather forecast", err);
       }
@@ -50,6 +55,9 @@ function WeatherProvider({ children }) {
     const API_URL = `https://api.tomorrow.io/v4/weather/forecast?location=${userInput}&apikey=`;
 
     const fetchForecast = async () => {
+      setForecast([]);
+      setIsLoadingForecast(true);
+
       try {
         const response = await fetch(`${API_URL}${API_KEY}`);
 
@@ -67,8 +75,39 @@ function WeatherProvider({ children }) {
         }
 
         const data = await response.json();
-        setForecast(data);
-        console.log("Future", data);
+        const { daily } = data.timelines;
+
+        daily.forEach((day) => {
+          setForecast((forecast) => [
+            ...forecast,
+            {
+              minTemp: Math.round(day.values.temperatureMin),
+              maxTemp: Math.round(day.values.temperatureMax),
+              AvgTemp: Math.round(day.values.temperatureAvg),
+              sunrise: new Date(day.values.sunriseTime)
+                .toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  hour12: true,
+                })
+                .replace("am", "AM")
+                .replace("pm", "PM"),
+              sunset: new Date(day.values.sunsetTime)
+                .toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  hour12: true,
+                })
+                .replace("am", "AM")
+                .replace("pm", "PM"),
+              weatherCode: day.values.weatherCodeMax,
+
+              // Weather code day/night?
+            },
+          ]);
+        });
+
+        setIsLoadingForecast(false);
       } catch (err) {
         console.error("Error fetching weather forecast", err);
       }
@@ -80,7 +119,15 @@ function WeatherProvider({ children }) {
   }, [userInput]);
 
   return (
-    <WeatherContext.Provider value={{ setUserInput, currentTemperature }}>
+    <WeatherContext.Provider
+      value={{
+        setUserInput,
+        currentTemperature,
+        forecast,
+        isLoadingCurrentTemperature,
+        isLoadingForecast,
+      }}
+    >
       {children}
     </WeatherContext.Provider>
   );
@@ -92,8 +139,13 @@ export const useWeather = () => {
 
 export default WeatherProvider;
 
-// destructure foreacast and place in state
-// maybe loop over the foecast and push relevant info into an array?
+// check data updates correctly in forecast
+// geocode location of user to set userInput!
+
 // map over array to dispaly the card ?
 // Pass the weather into the components
-// handle icon based on weather
+// handle icon based on weather code
+// hamdle colour based on weather code
+
+// weather code state based on current time (day / night)
+// colour and icon rendered based on weather code

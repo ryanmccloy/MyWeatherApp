@@ -1,20 +1,34 @@
 import { useWeather } from "../contexts/WeatherProvider";
 
 function CurrentDayOverview() {
-  const { currentTemperature } = useWeather();
+  const { forecast } = useWeather();
+
+  let minTemp, maxTemp, AvgTemp, sunrise, sunset;
+
+  // Check if forecast and forecast[1] exist
+  if (forecast && forecast.length > 1) {
+    ({ minTemp, maxTemp, AvgTemp, sunrise, sunset } = forecast[1]);
+    console.log(minTemp, maxTemp, AvgTemp, sunrise, sunset);
+  } else {
+    console.log("Data is still loading or forecast is empty.");
+  }
 
   return (
-    <div className="flex items-end gap-5">
-      <h1 className="font-semibold text-[110px] leading-none ">
-        {currentTemperature}&deg;
-      </h1>
-
-      <div className="flex flex-col gap-1 text-[12px]">
-        <p>Showers</p>
-        <p>
-          H: 31&deg; <span className="font-thin">-</span> L: 14&deg;
-        </p>
-        <p>Sunset: 7:48pm</p>
+    <div className="bg-white/10 flex flex-col gap-3 border p-2 rounded-lg shadow-md">
+      <h2 className="font-semibold">TODAYS STATS</h2>
+      <div className="flex gap-20 text-[12px] leading-loose">
+        <div>
+          <p>Showers</p>
+          <p>
+            H: {maxTemp}&deg; <span className="font-thin">-</span> L: {minTemp}
+            &deg;
+          </p>
+          <p>Avg Temp: {AvgTemp}</p>
+        </div>
+        <div>
+          <p>Sunrise: {sunrise}</p>
+          <p>Sunset: {sunset}</p>
+        </div>
       </div>
     </div>
   );

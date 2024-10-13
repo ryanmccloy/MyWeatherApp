@@ -1,10 +1,9 @@
 import FutureForecastCards from "./FutureForecastCards";
-import TodayCard from "./TodayCard";
 
 function WeatherForecast() {
   return (
-    <div className="flex gap-3 z-10">
-      <TodayCard />
+    <div className="flex flex-col gap-3 z-10 p-2 bg-white/10 border p-2 rounded-lg shadow-md ">
+      <h2 className="font-semibold">5-DAY FORECAST</h2>
       <FutureForecastCards />
     </div>
   );

@@ -1,26 +1,30 @@
+import { waveform } from "ldrs";
+
 import Wrapper from "./components/Wrapper";
-import MainContainer from "./components/MainContainer";
 import LocationSearch from "./components/LocationSearch";
 import CurrentDayWeather from "./components/CurrentDayWeather";
+import CurrentDayOverview from "./components/CurrentDayOverview";
 import WeatherForecast from "./components/WeatherForecast";
-import IntroMessage from "./components/IntroMessage";
 import { useWeather } from "./contexts/WeatherProvider";
 
 function App() {
-  const { currentTemperature } = useWeather();
+  const { isLoadingCurrentTemperature, isLoadingForecast } = useWeather();
+
+  waveform.register();
 
   return (
     <Wrapper>
-      {currentTemperature ? (
+      <LocationSearch />
+      {isLoadingCurrentTemperature || isLoadingForecast ? (
+        <div className="h-full w-full flex justify-center items-center">
+          <l-waveform color="white" />
+        </div>
+      ) : (
         <>
-          <MainContainer>
-            <LocationSearch />
-            <CurrentDayWeather />
-          </MainContainer>
+          <CurrentDayWeather />
+          <CurrentDayOverview />
           <WeatherForecast />
         </>
-      ) : (
-        <IntroMessage />
       )}
     </Wrapper>
   );
