@@ -41,7 +41,6 @@ function LocationSearch() {
             type="text"
             id="location"
             name="location"
-            placeholder="Tokyo..."
             value={searchLocation}
             onChange={(e) => setSearchLocation(e.target.value)}
             aria-label="Search for a location"
