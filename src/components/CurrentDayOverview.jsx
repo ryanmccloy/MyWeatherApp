@@ -8,9 +8,6 @@ function CurrentDayOverview() {
   // Check if forecast and forecast[1] exist
   if (forecast && forecast.length > 1) {
     ({ minTemp, maxTemp, AvgTemp, sunrise, sunset } = forecast[1]);
-    console.log(minTemp, maxTemp, AvgTemp, sunrise, sunset);
-  } else {
-    console.log("Data is still loading or forecast is empty.");
   }
 
   return (

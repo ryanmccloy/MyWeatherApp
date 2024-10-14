@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { getLocalTimeZone } from "../helper";
 
 const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
 
@@ -7,8 +8,11 @@ const WeatherContext = createContext();
 
 function WeatherProvider({ children }) {
   const [userInput, setUserInput] = useState("");
+  const [currentTime, setCurrentTime] = useState("");
+  const [localTimezone, setLocalTimezone] = useState("");
   const [currentTemperature, setCurrentTemperature] = useState("");
   const [forecast, setForecast] = useState([]);
+  const [isDay, setIsDay] = useState();
   const [isLoadingCurrentTemperature, setIsLoadingCurrentTemperature] =
     useState(true);
   const [isLoadingForecast, setIsLoadingForecast] = useState(true);
@@ -38,7 +42,15 @@ function WeatherProvider({ children }) {
 
         const data = await response.json();
         const { temperature } = data.data.values;
+        const { lat, lon } = data.location;
+        const { time } = data.data;
+        const timezone = await getLocalTimeZone(lat, lon);
+        if (timezone) {
+          setLocalTimezone(timezone);
+        }
+
         setCurrentTemperature(Math.round(temperature));
+        setCurrentTime(time);
         setIsLoadingCurrentTemperature(false);
       } catch (err) {
         console.error("Error fetching weather forecast", err);
@@ -75,6 +87,7 @@ function WeatherProvider({ children }) {
         }
 
         const data = await response.json();
+        console.log("future", data);
         const { daily } = data.timelines;
 
         daily.forEach((day) => {
@@ -139,13 +152,13 @@ export const useWeather = () => {
 
 export default WeatherProvider;
 
-// check data updates correctly in forecast
-// geocode location of user to set userInput!
-
-// map over array to dispaly the card ?
-// Pass the weather into the components
+// Current weather code for main icon?
 // handle icon based on weather code
 // hamdle colour based on weather code
 
 // weather code state based on current time (day / night)
 // colour and icon rendered based on weather code
+
+// convert current time to local time zone
+// convert sunrise and sunset to local time zone
+// compare current time to sunset/sunrise time to load icon
