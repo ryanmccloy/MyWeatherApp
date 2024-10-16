@@ -1,8 +1,14 @@
 import WeatherIcon from "./WeatherIcon";
 import { useWeather } from "../contexts/WeatherProvider";
+import { isDayTime } from "../helper";
 
 function CurrentDayWeather() {
-  const { currentTemperature } = useWeather();
+  const { currentTemperature, currentTime, currentWeatherCode, forecast } =
+    useWeather();
+  const { sunrise, sunset } = forecast[0];
+
+  // Check if it is day or night to render appropraite icon
+  const isDay = isDayTime(currentTime, sunrise, sunset);
 
   return (
     <div className=" bg-white/10  z-10 p-5 border shadow-md flex-1 rounded-lg flex flex-col justify-between">

@@ -1,13 +1,13 @@
 import { useWeather } from "../contexts/WeatherProvider";
 
 function CurrentDayOverview() {
-  const { forecast } = useWeather();
+  const { forecast, currentTime, currentWeatherCode } = useWeather();
 
-  let minTemp, maxTemp, AvgTemp, sunrise, sunset;
+  let minTemp, maxTemp, AvgTemp, sunrise, sunset, weatherCodeMax;
 
-  // Check if forecast and forecast[1] exist
   if (forecast && forecast.length > 1) {
-    ({ minTemp, maxTemp, AvgTemp, sunrise, sunset } = forecast[1]);
+    ({ minTemp, maxTemp, AvgTemp, sunrise, sunset, weatherCodeMax } =
+      forecast[0]);
   }
 
   return (
@@ -15,7 +15,7 @@ function CurrentDayOverview() {
       <h2 className="font-semibold">TODAYS STATS</h2>
       <div className="flex gap-20 text-[12px] leading-loose">
         <div>
-          <p>Showers</p>
+          <p>{currentWeatherCode}</p>
           <p>
             H: {maxTemp}&deg; <span className="font-thin">-</span> L: {minTemp}
             &deg;

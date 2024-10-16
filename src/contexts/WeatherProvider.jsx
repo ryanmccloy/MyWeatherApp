@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { getLocalTimeZone } from "../helper";
+import { convertToLocalTimeZone, getLocalTimeZone } from "../helper";
 
 const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
 
@@ -9,10 +9,9 @@ const WeatherContext = createContext();
 function WeatherProvider({ children }) {
   const [userInput, setUserInput] = useState("");
   const [currentTime, setCurrentTime] = useState("");
-  const [localTimezone, setLocalTimezone] = useState("");
   const [currentTemperature, setCurrentTemperature] = useState("");
+  const [currentWeatherCode, setCurrentWeatherCode] = useState("");
   const [forecast, setForecast] = useState([]);
-  const [isDay, setIsDay] = useState();
   const [isLoadingCurrentTemperature, setIsLoadingCurrentTemperature] =
     useState(true);
   const [isLoadingForecast, setIsLoadingForecast] = useState(true);
@@ -42,15 +41,14 @@ function WeatherProvider({ children }) {
 
         const data = await response.json();
         const { temperature } = data.data.values;
+        const { weatherCode } = data.data.values;
         const { lat, lon } = data.location;
         const { time } = data.data;
-        const timezone = await getLocalTimeZone(lat, lon);
-        if (timezone) {
-          setLocalTimezone(timezone);
-        }
+        const timeZone = await getLocalTimeZone(lat, lon);
 
         setCurrentTemperature(Math.round(temperature));
-        setCurrentTime(time);
+        setCurrentWeatherCode(weatherCode);
+        setCurrentTime(convertToLocalTimeZone(timeZone, time));
         setIsLoadingCurrentTemperature(false);
       } catch (err) {
         console.error("Error fetching weather forecast", err);
@@ -64,6 +62,11 @@ function WeatherProvider({ children }) {
 
   // Fetch Upcoming Forecast
   useEffect(() => {
+    if (!userInput) {
+      console.log("Waiting for userInput...");
+      return;
+    }
+
     const API_URL = `https://api.tomorrow.io/v4/weather/forecast?location=${userInput}&apikey=`;
 
     const fetchForecast = async () => {
@@ -87,8 +90,9 @@ function WeatherProvider({ children }) {
         }
 
         const data = await response.json();
-        console.log("future", data);
         const { daily } = data.timelines;
+        const { lat, lon } = data.location;
+        const timeZone = await getLocalTimeZone(lat, lon);
 
         daily.forEach((day) => {
           setForecast((forecast) => [
@@ -97,25 +101,9 @@ function WeatherProvider({ children }) {
               minTemp: Math.round(day.values.temperatureMin),
               maxTemp: Math.round(day.values.temperatureMax),
               AvgTemp: Math.round(day.values.temperatureAvg),
-              sunrise: new Date(day.values.sunriseTime)
-                .toLocaleTimeString([], {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  hour12: true,
-                })
-                .replace("am", "AM")
-                .replace("pm", "PM"),
-              sunset: new Date(day.values.sunsetTime)
-                .toLocaleTimeString([], {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  hour12: true,
-                })
-                .replace("am", "AM")
-                .replace("pm", "PM"),
-              weatherCode: day.values.weatherCodeMax,
-
-              // Weather code day/night?
+              sunrise: convertToLocalTimeZone(timeZone, day.values.sunriseTime),
+              sunset: convertToLocalTimeZone(timeZone, day.values.sunsetTime),
+              weatherCodeMax: day.values.weatherCodeMax,
             },
           ]);
         });
@@ -136,9 +124,11 @@ function WeatherProvider({ children }) {
       value={{
         setUserInput,
         currentTemperature,
+        currentWeatherCode,
         forecast,
         isLoadingCurrentTemperature,
         isLoadingForecast,
+        currentTime,
       }}
     >
       {children}
@@ -152,13 +142,12 @@ export const useWeather = () => {
 
 export default WeatherProvider;
 
+// set todays icon based on current weather code
+// set future icons based on maxWeathercode in forecast
+
 // Current weather code for main icon?
 // handle icon based on weather code
 // hamdle colour based on weather code
 
 // weather code state based on current time (day / night)
 // colour and icon rendered based on weather code
-
-// convert current time to local time zone
-// convert sunrise and sunset to local time zone
-// compare current time to sunset/sunrise time to load icon

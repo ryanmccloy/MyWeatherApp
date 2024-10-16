@@ -8,10 +8,6 @@ function FutureForecastCards() {
     <div className="flex gap-2 overflow-hidden">
       {forecast.map((day, i) => {
         if (i === 0) {
-          return;
-        }
-
-        if (i === 1) {
           return (
             <Card
               today={true}
@@ -20,9 +16,9 @@ function FutureForecastCards() {
               maxTemp={day.maxTemp}
             />
           );
+        } else {
+          return <Card key={i} minTemp={day.minTemp} maxTemp={day.maxTemp} />;
         }
-
-        return <Card key={i} minTemp={day.minTemp} maxTemp={day.maxTemp} />;
       })}
     </div>
   );
