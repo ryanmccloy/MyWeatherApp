@@ -142,12 +142,4 @@ export const useWeather = () => {
 
 export default WeatherProvider;
 
-// set todays icon based on current weather code
-// set future icons based on maxWeathercode in forecast
-
-// Current weather code for main icon?
-// handle icon based on weather code
 // hamdle colour based on weather code
-
-// weather code state based on current time (day / night)
-// colour and icon rendered based on weather code

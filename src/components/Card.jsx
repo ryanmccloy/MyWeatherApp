@@ -9,7 +9,7 @@ function Card({ today, minTemp, maxTemp, icon }) {
     >
       <WeatherIcon icon={icon} />
       <p className="text-[12px] font-semibold">
-        {minTemp}&deg; / {maxTemp}&deg;
+        {maxTemp}&deg; / {minTemp}&deg;
       </p>
     </div>
   );
