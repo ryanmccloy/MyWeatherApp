@@ -14,10 +14,18 @@ function FutureForecastCards() {
               key={i}
               minTemp={day.minTemp}
               maxTemp={day.maxTemp}
+              icon={`${day.weatherCodeMax}0`}
             />
           );
         } else {
-          return <Card key={i} minTemp={day.minTemp} maxTemp={day.maxTemp} />;
+          return (
+            <Card
+              key={i}
+              minTemp={day.minTemp}
+              maxTemp={day.maxTemp}
+              icon={`${day.weatherCodeMax}0`}
+            />
+          );
         }
       })}
     </div>

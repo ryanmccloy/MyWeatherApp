@@ -1,13 +1,13 @@
 import WeatherIcon from "./WeatherIcon";
 
-function Card({ today, minTemp, maxTemp }) {
+function Card({ today, minTemp, maxTemp, icon }) {
   return (
     <div
       className={`${
         today ? "border-white" : ""
-      } flex flex-col gap-1 items-center min-w-fit p-1 border rounded-lg shadow-md `}
+      } flex flex-col gap-2 items-center min-w-fit p-2 border rounded-lg shadow-md `}
     >
-      <WeatherIcon type="rain" />
+      <WeatherIcon icon={icon} />
       <p className="text-[12px] font-semibold">
         {minTemp}&deg; / {maxTemp}&deg;
       </p>

@@ -1,21 +1,47 @@
 import { useWeather } from "../contexts/WeatherProvider";
 
 function CurrentDayOverview() {
-  const { forecast, currentTime, currentWeatherCode } = useWeather();
+  const { forecast, currentWeatherCode } = useWeather();
 
-  let minTemp, maxTemp, AvgTemp, sunrise, sunset, weatherCodeMax;
+  let minTemp, maxTemp, AvgTemp, sunrise, sunset;
 
   if (forecast && forecast.length > 1) {
-    ({ minTemp, maxTemp, AvgTemp, sunrise, sunset, weatherCodeMax } =
-      forecast[0]);
+    ({ minTemp, maxTemp, AvgTemp, sunrise, sunset } = forecast[0]);
   }
+
+  const weatherCodeDescription = {
+    0: "Unknown",
+    1000: "Clear, Sunny",
+    1100: "Mostly Clear",
+    1101: "Partly Cloudy",
+    1102: "Mostly Cloudy",
+    1001: "Cloudy",
+    2000: "Fog",
+    2100: "Light Fog",
+    4000: "Drizzle",
+    4001: "Rain",
+    4200: "Light Rain",
+    4201: "Heavy Rain",
+    5000: "Snow",
+    5001: "Flurries",
+    5100: "Light Snow",
+    5101: "Heavy Snow",
+    6000: "Freezing Drizzle",
+    6001: "Freezing Rain",
+    6200: "Light Freezing Rain",
+    6201: "Heavy Freezing Rain",
+    7000: "Ice Pellets",
+    7101: "Heavy Ice Pellets",
+    7102: "Light Ice Pellets",
+    8000: "Thunderstorm",
+  };
 
   return (
     <div className="bg-white/10 flex flex-col gap-3 border p-2 rounded-lg shadow-md">
       <h2 className="font-semibold">TODAYS STATS</h2>
       <div className="flex gap-20 text-[12px] leading-loose">
         <div>
-          <p>{currentWeatherCode}</p>
+          <p>{weatherCodeDescription[currentWeatherCode]}</p>
           <p>
             H: {maxTemp}&deg; <span className="font-thin">-</span> L: {minTemp}
             &deg;
