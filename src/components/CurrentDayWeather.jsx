@@ -5,7 +5,12 @@ import { isDayTime } from "../helper";
 function CurrentDayWeather() {
   const { currentTemperature, currentTime, currentWeatherCode, forecast } =
     useWeather();
-  const { sunrise, sunset } = forecast[0];
+
+  let sunrise, sunset;
+
+  if (forecast && forecast.length > 1) {
+    ({ sunrise, sunset } = forecast[0]);
+  }
 
   // Check if it is day or night to render appropraite icon
   const isDay = isDayTime(currentTime, sunrise, sunset);

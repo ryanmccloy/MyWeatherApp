@@ -7,22 +7,22 @@ const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
 const WeatherContext = createContext();
 
 function WeatherProvider({ children }) {
-  const [userInput, setUserInput] = useState("");
+  const [userInput, setUserInput] = useState(null);
   const [currentTime, setCurrentTime] = useState("");
   const [currentTemperature, setCurrentTemperature] = useState("");
   const [currentWeatherCode, setCurrentWeatherCode] = useState("");
   const [forecast, setForecast] = useState([]);
   const [isLoadingCurrentTemperature, setIsLoadingCurrentTemperature] =
-    useState(true);
-  const [isLoadingForecast, setIsLoadingForecast] = useState(true);
+    useState(null);
+  const [isLoadingForecast, setIsLoadingForecast] = useState(null);
 
   // Fetch Current Weather
   useEffect(() => {
     const API_URL = `https://api.tomorrow.io/v4/weather/realtime?location=${userInput}&apikey=`;
 
-    setIsLoadingCurrentTemperature(true);
-
     const fetchCurrentWeather = async () => {
+      setIsLoadingCurrentTemperature(true);
+
       try {
         const response = await fetch(`${API_URL}${API_KEY}`);
 
@@ -123,6 +123,7 @@ function WeatherProvider({ children }) {
     <WeatherContext.Provider
       value={{
         setUserInput,
+        userInput,
         currentTemperature,
         currentWeatherCode,
         forecast,
@@ -141,5 +142,3 @@ export const useWeather = () => {
 };
 
 export default WeatherProvider;
-
-// hamdle colour based on weather code

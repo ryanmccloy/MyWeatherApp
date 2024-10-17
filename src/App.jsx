@@ -6,22 +6,30 @@ import CurrentDayWeather from "./components/CurrentDayWeather";
 import CurrentDayOverview from "./components/CurrentDayOverview";
 import WeatherForecast from "./components/WeatherForecast";
 import { useWeather } from "./contexts/WeatherProvider";
+import InitialPageLoad from "./components/InitialPageLoad";
 
 function App() {
-  const { isLoadingCurrentTemperature, isLoadingForecast } = useWeather();
+  const { isLoadingCurrentTemperature, isLoadingForecast, userInput } =
+    useWeather();
 
   waveform.register();
 
   return (
     <Wrapper>
       <LocationSearch />
-      {isLoadingCurrentTemperature || isLoadingForecast ? (
-        <div className="h-full w-full flex justify-center items-center">
+
+      {!userInput && <InitialPageLoad />}
+
+      {(isLoadingCurrentTemperature || isLoadingForecast) && (
+        <div className="flex-1 w-full flex justify-center items-center">
           <l-waveform color="white" />
         </div>
-      ) : (
+      )}
+
+      {userInput && !isLoadingCurrentTemperature && !isLoadingForecast && (
         <>
           <CurrentDayWeather />
+
           <CurrentDayOverview />
           <WeatherForecast />
         </>
