@@ -18,8 +18,11 @@ function App() {
     <Wrapper>
       <LocationSearch />
 
-      {!userInput && <InitialPageLoad />}
-
+      {!userInput && (
+        <div className="flex-1 -mx-5   flex items-center justify-center bg-red-300">
+          <InitialPageLoad />
+        </div>
+      )}
       {(isLoadingCurrentTemperature || isLoadingForecast) && (
         <div className="flex-1 w-full flex justify-center items-center">
           <l-waveform color="white" />

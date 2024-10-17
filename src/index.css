@@ -12,3 +12,16 @@
     scrollbar-width: none; /* Hides scrollbar for Firefox */
   }
 }
+
+.animate-slide {
+  animation: slide 5s linear infinite;
+}
+
+@keyframes slide {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
