@@ -45,6 +45,7 @@ function WeatherProvider({ children }) {
         const { lat, lon } = data.location;
         const { time } = data.data;
         const timeZone = await getLocalTimeZone(lat, lon);
+        console.log(timeZone);
 
         setCurrentTemperature(Math.round(temperature));
         setCurrentWeatherCode(weatherCode);
@@ -82,9 +83,9 @@ function WeatherProvider({ children }) {
               ? "Too many requests! Please come back later :("
               : "Error fetching weather forecast! Please make sure you have entered a valid location";
 
-          toast.error(errorMessage, {
-            duration: 3000,
-          });
+          // toast.error(errorMessage, {
+          //   duration: 3000,
+          // });
 
           throw new Error(`HTTP error! Status: ${response.status}`);
         }

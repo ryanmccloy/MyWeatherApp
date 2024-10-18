@@ -14,7 +14,7 @@
 }
 
 .animate-slide {
-  animation: slide 5s linear infinite;
+  animation: slide 240s linear infinite;
 }
 
 @keyframes slide {

@@ -1,3 +1,4 @@
+import React from "react";
 import toast from "react-hot-toast";
 
 export function checkSearchLocationIsValidInput(input) {
@@ -54,6 +55,30 @@ export function isDayTime(currentTime, sunrise, sunset) {
   const sunsetDate = new Date(`${baseDate} ${sunset}`);
 
   return currentTimeDate >= sunriseDate && currentTimeDate <= sunsetDate;
+}
+
+export function createClouds(numOfClouds, icon) {
+  let cloudArr = Array.from({ length: numOfClouds }, (_, i) => i);
+
+  return cloudArr.map((cloud) => {
+    const randomMargin = Math.floor(Math.random() * (150 - 400) + 400);
+    const randomHeight = Math.floor(Math.random() * (300 - 50) + 50);
+    return React.createElement(
+      "img",
+      {
+        src: `/V2_icons/large/png/${icon}.png`,
+        key: cloud,
+        alt: "Cloud Icon",
+        className: "inline-block",
+        style: {
+          marginRight: `${randomMargin}px`,
+          height: `${randomHeight}px`,
+          width: "auto",
+        },
+      },
+      null
+    );
+  });
 }
 
 export const weatherCodeColors = {

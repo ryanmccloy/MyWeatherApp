@@ -19,7 +19,7 @@ function App() {
       <LocationSearch />
 
       {!userInput && (
-        <div className="flex-1 -mx-5   flex items-center justify-center bg-red-300">
+        <div className="flex-1 -mx-5  ">
           <InitialPageLoad />
         </div>
       )}
