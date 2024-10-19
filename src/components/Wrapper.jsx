@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import { useWeather } from "../contexts/WeatherProvider";
-import { isDayTime, weatherCodeColors } from "../helper";
+import { isDayTime } from "../../utils/helper";
+import { weatherCodeColors } from "../../utils/constants";
 
 function Wrapper({ children }) {
-  const [colorStyle, setColorStyle] = useState("bg-blue-300  text-white");
+  const [colorStyle, setColorStyle] = useState(
+    "bg-[#a3cef1]  text-[#274c77] border-[#a3cef1]"
+  );
 
   const {
     currentTime,
@@ -24,7 +27,7 @@ function Wrapper({ children }) {
       // Determine appropriate color scheme based on day/night
       const newColorStyle = weatherCodeColors[currentWeatherCode][scheme]
         ? weatherCodeColors[currentWeatherCode][scheme]
-        : "bg-blue-300  text-white";
+        : "bg-[#a3cef1]  text-[#274c77] border-[#a3cef1]";
       setColorStyle(newColorStyle);
     }
   }, [currentTime, currentWeatherCode, forecast, isLoadingCurrentTemperature]);
@@ -32,6 +35,10 @@ function Wrapper({ children }) {
   return (
     <div
       className={` ${colorStyle} p-5 backdrop-blur-md flex flex-col gap-5 h-[100dvh] min-h-fit transition-all duration-1000 ease-in-out `}
+      style={{
+        backgroundColor: colorStyle.backgroundColor,
+        color: colorStyle.textColor,
+      }}
     >
       {children}
     </div>

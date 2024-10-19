@@ -3,7 +3,7 @@ import { CiSearch } from "react-icons/ci";
 import toast, { Toaster } from "react-hot-toast";
 
 import { useWeather } from "../contexts/WeatherProvider";
-import { checkSearchLocationIsValidInput } from "../helper";
+import { checkSearchLocationIsValidInput } from "../../utils/helper";
 
 function LocationSearch() {
   const [searchLocation, setSearchLocation] = useState("");

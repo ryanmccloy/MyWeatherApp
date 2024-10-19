@@ -19,7 +19,7 @@ function App() {
       <LocationSearch />
 
       {!userInput && (
-        <div className="flex-1 -mx-5  ">
+        <div className="flex-1 -mx-5  overflow-hidden">
           <InitialPageLoad />
         </div>
       )}

@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { convertToLocalTimeZone, getLocalTimeZone } from "../helper";
+import { convertToLocalTimeZone, getLocalTimeZone } from "../../utils/helper";
 
 const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
 
@@ -45,7 +45,6 @@ function WeatherProvider({ children }) {
         const { lat, lon } = data.location;
         const { time } = data.data;
         const timeZone = await getLocalTimeZone(lat, lon);
-        console.log(timeZone);
 
         setCurrentTemperature(Math.round(temperature));
         setCurrentWeatherCode(weatherCode);

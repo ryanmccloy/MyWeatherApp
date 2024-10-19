@@ -1,4 +1,4 @@
-import { createClouds } from "../helper";
+import { createClouds } from "../../utils/helper";
 
 // const icons = [
 //   "10000",
@@ -25,7 +25,11 @@ const thirdSetClouds = createClouds(20, "10011");
 
 function InitialPageLoad() {
   return (
-    <div className="overflow-hidden">
+    <div className="relative">
+      <img
+        src="V2_icons/large/png/10000.png"
+        className="absolute top-32 left-12 h-[150px]"
+      />
       <div className="flex  ">
         {/* First set of icons */}
         <div className="flex-shrink-0 animate-slide ">{firstSetClouds}</div>

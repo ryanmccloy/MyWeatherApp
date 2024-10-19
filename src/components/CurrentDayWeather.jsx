@@ -1,6 +1,6 @@
 import WeatherIcon from "./WeatherIcon";
 import { useWeather } from "../contexts/WeatherProvider";
-import { isDayTime } from "../helper";
+import { isDayTime } from "../../utils/helper";
 
 function CurrentDayWeather() {
   const { currentTemperature, currentTime, currentWeatherCode, forecast } =
