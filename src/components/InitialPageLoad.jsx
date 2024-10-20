@@ -28,30 +28,38 @@ function InitialPageLoad() {
     <div className="relative">
       <img
         src="V2_icons/large/png/10000.png"
-        className="absolute top-32 left-12 h-[150px]"
+        className="absolute top-32 left-[25%] h-[150px]"
       />
       <div className="flex  ">
         {/* First set of icons */}
-        <div className="flex-shrink-0 animate-slide ">{firstSetClouds}</div>
+        <div className="flex-shrink-0 animate-slide flex ">
+          {firstSetClouds}
+        </div>
 
         {/* Second set of identical icons */}
-        <div className="flex-shrink-0 animate-slide ">{firstSetClouds}</div>
+        <div className="flex-shrink-0 animate-slide flex ">
+          {firstSetClouds}
+        </div>
       </div>
 
       <div className="flex  ">
         {/* First set of icons */}
-        <div className="flex-shrink-0 animate-slide ">{secondSetClouds}</div>
+        <div className="flex-shrink-0 animate-slide flex">
+          {secondSetClouds}
+        </div>
 
         {/* Second set of identical icons */}
-        <div className="flex-shrink-0 animate-slide ">{secondSetClouds}</div>
+        <div className="flex-shrink-0 animate-slide flex">
+          {secondSetClouds}
+        </div>
       </div>
 
       <div className="flex  ">
         {/* First set of icons */}
-        <div className="flex-shrink-0 animate-slide ">{thirdSetClouds}</div>
+        <div className="flex-shrink-0 animate-slide flex">{thirdSetClouds}</div>
 
         {/* Second set of identical icons */}
-        <div className="flex-shrink-0 animate-slide ">{thirdSetClouds}</div>
+        <div className="flex-shrink-0 animate-slide flex">{thirdSetClouds}</div>
       </div>
     </div>
   );

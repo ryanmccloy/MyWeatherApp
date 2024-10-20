@@ -19,7 +19,7 @@ function App() {
       <LocationSearch />
 
       {!userInput && (
-        <div className="flex-1 -mx-5  overflow-hidden">
+        <div className="flex-1 -mx-5 -mb-5  overflow-hidden">
           <InitialPageLoad />
         </div>
       )}
@@ -30,12 +30,14 @@ function App() {
       )}
 
       {userInput && !isLoadingCurrentTemperature && !isLoadingForecast && (
-        <>
+        <div className="flex flex-col gap-5 flex-1 lg:flex-row max-w-[1500px] w-full mx-auto">
           <CurrentDayWeather />
 
-          <CurrentDayOverview />
-          <WeatherForecast />
-        </>
+          <div className="flex flex-col gap-5">
+            <CurrentDayOverview />
+            <WeatherForecast />
+          </div>
+        </div>
       )}
     </Wrapper>
   );

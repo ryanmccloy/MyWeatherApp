@@ -1,10 +1,12 @@
 import WeatherIcon from "./WeatherIcon";
 import { useWeather } from "../contexts/WeatherProvider";
 import { isDayTime } from "../../utils/helper";
+import { weatherCodeDescription } from "../../utils/constants";
 
 function CurrentDayWeather() {
   const { currentTemperature, currentTime, currentWeatherCode, forecast } =
     useWeather();
+  console.log(currentTemperature);
 
   let sunrise, sunset;
 
@@ -24,9 +26,15 @@ function CurrentDayWeather() {
       <div className="flex-1 flex justify-center ">
         <WeatherIcon icon={weatherCodeIcon} main={true} />
       </div>
-      <h1 className="font-semibold text-[110px] leading-none ">
-        {currentTemperature}&deg;
-      </h1>
+
+      <div className="lg:flex lg:justify-between items-end leading-none ">
+        <h1 className="  hidden font-semibold text-[100px] mr-10 lg:block ">
+          {weatherCodeDescription[currentWeatherCode]}
+        </h1>
+        <h1 className="font-semibold text-[110px] md:text-[130px] lg:text-[170px] lg:-mb-3 ">
+          {currentTemperature}&deg;
+        </h1>
+      </div>
     </div>
   );
 }

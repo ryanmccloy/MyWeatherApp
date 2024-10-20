@@ -34,7 +34,7 @@ function Wrapper({ children }) {
 
   return (
     <div
-      className={` ${colorStyle} p-5 backdrop-blur-md flex flex-col gap-5 h-[100dvh] min-h-fit transition-all duration-1000 ease-in-out `}
+      className={` ${colorStyle} p-5 backdrop-blur-md flex flex-col gap-5 h-[100dvh] min-h-fit  transition-all duration-1000 ease-in-out text-[12px] md:text-[14px] `}
       style={{
         backgroundColor: colorStyle.backgroundColor,
         color: colorStyle.textColor,

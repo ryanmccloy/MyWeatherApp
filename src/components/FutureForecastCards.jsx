@@ -5,7 +5,7 @@ function FutureForecastCards() {
   const { forecast } = useWeather();
 
   return (
-    <div className="flex gap-2 overflow-scroll no-scrollbar">
+    <div className="flex gap-2 overflow-scroll no-scrollbar lg:flex-col lg:flex-1 ">
       {forecast.map((day, i) => {
         return (
           <Card

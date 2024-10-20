@@ -1,3 +1,4 @@
+import { weatherCodeDescription } from "../../utils/constants";
 import { useWeather } from "../contexts/WeatherProvider";
 
 function CurrentDayOverview() {
@@ -9,37 +10,10 @@ function CurrentDayOverview() {
     ({ minTemp, maxTemp, AvgTemp, sunrise, sunset } = forecast[0]);
   }
 
-  const weatherCodeDescription = {
-    0: "Unknown",
-    1000: "Clear, Sunny",
-    1100: "Mostly Clear",
-    1101: "Partly Cloudy",
-    1102: "Mostly Cloudy",
-    1001: "Cloudy",
-    2000: "Fog",
-    2100: "Light Fog",
-    4000: "Drizzle",
-    4001: "Rain",
-    4200: "Light Rain",
-    4201: "Heavy Rain",
-    5000: "Snow",
-    5001: "Flurries",
-    5100: "Light Snow",
-    5101: "Heavy Snow",
-    6000: "Freezing Drizzle",
-    6001: "Freezing Rain",
-    6200: "Light Freezing Rain",
-    6201: "Heavy Freezing Rain",
-    7000: "Ice Pellets",
-    7101: "Heavy Ice Pellets",
-    7102: "Light Ice Pellets",
-    8000: "Thunderstorm",
-  };
-
   return (
     <div className="bg-white/10 flex flex-col gap-3 border p-2 rounded-lg shadow-md">
-      <h2 className="font-semibold">TODAYS STATS</h2>
-      <div className="flex gap-20 text-[12px] leading-loose">
+      <h2 className="font-semibold text-[14px] md:text-[16px]">TODAYS STATS</h2>
+      <div className="flex gap-20  leading-loose">
         <div>
           <p>{weatherCodeDescription[currentWeatherCode]}</p>
           <p>

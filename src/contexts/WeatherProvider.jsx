@@ -45,6 +45,8 @@ function WeatherProvider({ children }) {
         const { lat, lon } = data.location;
         const { time } = data.data;
         const timeZone = await getLocalTimeZone(lat, lon);
+        console.log(temperature);
+        console.log(data);
 
         setCurrentTemperature(Math.round(temperature));
         setCurrentWeatherCode(weatherCode);
