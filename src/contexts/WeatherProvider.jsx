@@ -2,8 +2,6 @@ import { createContext, useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { convertToLocalTimeZone, getLocalTimeZone } from "../../utils/helper";
 
-const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
-
 const WeatherContext = createContext();
 
 function WeatherProvider({ children }) {
@@ -18,25 +16,23 @@ function WeatherProvider({ children }) {
 
   // Fetch Current Weather
   useEffect(() => {
-    const API_URL = `https://api.tomorrow.io/v4/weather/realtime?location=${userInput}&apikey=`;
-
     const fetchCurrentWeather = async () => {
       setIsLoadingCurrentTemperature(true);
 
       try {
-        const response = await fetch(`${API_URL}${API_KEY}`);
+        const response = await fetch(`/api/getWeather?location=${userInput}`);
 
         if (!response.ok) {
-          const errorMessage =
-            response.status === 429
-              ? "Too many requests! Please come back later :("
-              : "Error fetching weather forecast! Please make sure you have entered a valid location";
+          const errorData = await response.json();
 
-          toast.error(errorMessage, {
+          toast.error(errorData.message, {
             duration: 3000,
           });
 
-          throw new Error(`HTTP error! Status: ${response.status}`);
+          console.error("Error from serverless function:", errorData.message);
+          throw new Error(
+            `HTTP error! Status: ${response.status}, Message: ${errorData.message}`
+          );
         }
 
         const data = await response.json();
@@ -45,15 +41,16 @@ function WeatherProvider({ children }) {
         const { lat, lon } = data.location;
         const { time } = data.data;
         const timeZone = await getLocalTimeZone(lat, lon);
-        console.log(temperature);
-        console.log(data);
 
         setCurrentTemperature(Math.round(temperature));
         setCurrentWeatherCode(weatherCode);
         setCurrentTime(convertToLocalTimeZone(timeZone, time));
         setIsLoadingCurrentTemperature(false);
       } catch (err) {
-        console.error("Error fetching weather forecast", err);
+        console.error(
+          "Error fetching current weather from serverless function",
+          err.message
+        );
       }
     };
 
@@ -69,14 +66,12 @@ function WeatherProvider({ children }) {
       return;
     }
 
-    const API_URL = `https://api.tomorrow.io/v4/weather/forecast?location=${userInput}&apikey=`;
-
     const fetchForecast = async () => {
       setForecast([]);
       setIsLoadingForecast(true);
 
       try {
-        const response = await fetch(`${API_URL}${API_KEY}`);
+        const response = await fetch(`/api/getForecast?location=${userInput}`);
 
         if (!response.ok) {
           const errorMessage =
@@ -84,9 +79,7 @@ function WeatherProvider({ children }) {
               ? "Too many requests! Please come back later :("
               : "Error fetching weather forecast! Please make sure you have entered a valid location";
 
-          // toast.error(errorMessage, {
-          //   duration: 3000,
-          // });
+          console.error("Fetch Forecast Error", errorMessage);
 
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
@@ -112,7 +105,10 @@ function WeatherProvider({ children }) {
 
         setIsLoadingForecast(false);
       } catch (err) {
-        console.error("Error fetching weather forecast", err);
+        console.error(
+          "Error fetching weather forecast from serverless function",
+          err
+        );
       }
     };
 

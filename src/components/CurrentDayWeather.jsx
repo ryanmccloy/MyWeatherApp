@@ -6,7 +6,6 @@ import { weatherCodeDescription } from "../../utils/constants";
 function CurrentDayWeather() {
   const { currentTemperature, currentTime, currentWeatherCode, forecast } =
     useWeather();
-  console.log(currentTemperature);
 
   let sunrise, sunset;
 
