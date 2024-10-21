@@ -11,7 +11,7 @@ function CurrentDayOverview() {
   }
 
   return (
-    <div className="bg-white/10 flex flex-col gap-3 border p-2 rounded-lg shadow-md">
+    <div className="bg-white/10 flex flex-col gap-3 border p-2 rounded-lg shadow-md lg:p-4">
       <h2 className="font-semibold text-[14px] md:text-[16px]">TODAYS STATS</h2>
       <div className="flex gap-20  leading-loose">
         <div>
