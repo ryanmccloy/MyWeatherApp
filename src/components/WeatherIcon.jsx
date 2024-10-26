@@ -8,7 +8,7 @@ function WeatherIcon({ icon, main }) {
       <img
         src={`./V2_icons/large/png/${icon}.png`}
         className={`w-full h-full object-contain ${
-          main === true ? "" : "w-[70%]"
+          main === true ? "" : "lg:w-[60%]"
         }  `}
         alt="Weather Icon"
       />
